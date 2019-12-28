@@ -10,7 +10,7 @@ class DishPage extends StatefulWidget {
   _DishPageState createState() => _DishPageState();
 }
 
-class _DishPageState extends State<DishPage> {
+class _DishPageState extends State<DishPage>{
   String difficultyString(int difficulty) {
     if (difficulty == 1) return 'łatwe';
     if (difficulty == 2) return 'średnie';
@@ -26,6 +26,30 @@ class _DishPageState extends State<DishPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/jez.png',
+              fit: BoxFit.cover,
+              height: 45,
+              width: 45,
+            ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Kucharz Jeż',
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.red[600],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

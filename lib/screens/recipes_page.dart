@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kucharz_jez/models/recipe.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
 
 class RecipesPage extends StatefulWidget {
@@ -8,7 +9,80 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
+//  Future _doneFuture;
   String dropdownValue = 'nazwa';
+  final databaseReference = Firestore.instance;
+  List<Recipe> _recipes = [];
+  List<Recipe> _filteredRecipes = [];
+  var suggestions = new ListView();
+  var _searchview = new TextEditingController();
+  bool _firstSearch = true;
+  String _query = '';
+
+  @override
+  void initState() {
+    super.initState();
+//    initRecipes();
+//    suggestions = DataSearch(_recipes).buildSuggestions(context);
+  }
+
+  _RecipesPageState(){
+//    _doneFuture = initRecipes();
+    _searchview.addListener(() {
+      if (_searchview.text.isEmpty) {
+        setState(() {
+          _firstSearch = true;
+          _query = '';
+        });
+      } else {
+        setState(() {
+          _firstSearch = false;
+          _query = _searchview.text;
+        });
+      }
+    });
+  }
+//  Future get initializationDone => _doneFuture;
+
+  void addRecipe(Recipe rec){
+    _recipes.add(rec);
+  }
+
+  Future<void> initRecipes() async {
+    QuerySnapshot querySnapshot = await Firestore.instance.collection('recipes').getDocuments();
+    var list = querySnapshot.documents;
+    for(var f in list){
+      addRecipe(Recipe(
+          int.parse(f.documentID),
+          f['name'],
+          f['image_url'],
+          f['ingredients'],
+          f['instruction'],
+          f['types'],
+          f['difficulty'],
+          f['time']));
+    }
+//    databaseReference
+//        .collection("recipes")
+//        .getDocuments()
+//        .then((QuerySnapshot snapshot) {
+//      snapshot.documents.forEach((f) => addRecipe(Recipe(
+//          int.parse(f.documentID),
+//          f['name'],
+//          f['image_url'],
+//          f['ingredients'],
+//          f['instruction'],
+//          f['types'],
+//          f['difficulty'],
+//          f['time'])));
+//    });
+  }
+//  void waitForInitialization() async {
+//    await initializationDone;
+//  }
+  Widget printList(){
+    return _firstSearch ? _createListView() : _performListView();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +107,11 @@ class _RecipesPageState extends State<RecipesPage> {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextFormField(
+                        controller: _searchview,
+//                        onEditingComplete: () {
+//                          suggestions =
+//                              DataSearch(_recipes).buildSuggestions(context);
+//                        },
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Szukaj w przepisach',
@@ -43,7 +122,10 @@ class _RecipesPageState extends State<RecipesPage> {
                           ),
                           icon: GestureDetector(
                             child: Icon(Icons.search, color: Colors.black87),
-                            onTap: () {},
+//                            onTap: () {
+//                              suggestions = DataSearch(_recipes)
+//                                  .buildSuggestions(context);
+//                            },
                           ),
                         ),
                       ),
@@ -97,7 +179,86 @@ class _RecipesPageState extends State<RecipesPage> {
                 ),
               ],
             ),
-            StreamBuilder(
+            printList(),
+//            StreamBuilder(
+//                stream: Firestore.instance.collection('recipes').snapshots(),
+//                builder: (context, snapshot) {
+//                  if (!snapshot.hasData)
+//                    return const Text(
+//                      'Loading',
+//                      style: TextStyle(
+//                        fontSize: 22,
+//                        fontFamily: 'OpenSans',
+//                        color: Colors.black87,
+//                      ),
+//                    );
+//                  return ListView.builder(
+//                    scrollDirection: Axis.vertical,
+//                    shrinkWrap: true,
+//                    itemCount: snapshot.data.documents.length,
+//                    itemBuilder: (context, index) => Column(
+//                      children: <Widget>[
+//                        new ListTile(
+//                          onTap: () {
+//                            Navigator.push(
+//                                context,
+//                                MaterialPageRoute(
+//                                    builder: (context) =>
+//                                        DishPage(recipeId: index)));
+//                          },
+//                          title: Column(
+//                            children: <Widget>[
+//                              Row(
+//                                children: <Widget>[
+//                                  Padding(
+//                                    padding: const EdgeInsets.symmetric(
+//                                        horizontal: 10.0),
+//                                    child: Image.network(
+//                                      snapshot.data.documents[index]
+//                                          ['image_url'],
+//                                      width: 80.0,
+//                                      height: 80.0,
+//                                    ),
+//                                  ),
+//                                  Text(
+//                                    snapshot.data.documents[index]['name'],
+//                                    style: TextStyle(
+//                                      fontWeight: FontWeight.w300,
+//                                      color: Colors.black87,
+//                                      fontFamily: 'OpenSans',
+//                                      fontSize: 18,
+//                                    ),
+//                                  ),
+//                                ],
+//                              ),
+//                              Divider(color: Colors.black87),
+//                            ],
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  );
+//                }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _performListView() {
+    _filteredRecipes = new List<Recipe>();
+    for (int i = 0; i < _recipes.length; i++) {
+      var item = _recipes[i];
+
+      if (item.name.toLowerCase().contains(_query.toLowerCase())) {
+        _filteredRecipes.add(item);
+      }
+    }
+    return _createFilteredListView();
+  }
+
+  Widget _createListView() {
+    return StreamBuilder(
                 stream: Firestore.instance.collection('recipes').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
@@ -109,6 +270,20 @@ class _RecipesPageState extends State<RecipesPage> {
                         color: Colors.black87,
                       ),
                     );
+                  else{
+                    if(_recipes.length == 0){
+                    var list = snapshot.data.documents;
+                   for(var f in list){
+                      addRecipe(new Recipe(
+                          int.parse(f.documentID),
+                          f['name'],
+                          f['image_url'],
+                          f['ingredients'],
+                          f['instruction'],
+                          f['types'],
+                          f['difficulty'],
+                          f['time']));
+                   }}
                   return ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
@@ -120,44 +295,166 @@ class _RecipesPageState extends State<RecipesPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DishPage(recipeId: index)));
+                                    builder: (context) =>
+                                        DishPage(recipeId: index)));
                           },
                           title: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0),
-                                      child: Image.network(
-                                        snapshot.data.documents[index]
-                                            ['image_url'],
-                                        width: 80.0,
-                                        height: 80.0,
-                                      ),
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: Image.network(
+                                      snapshot.data.documents[index]
+                                          ['image_url'],
+                                      width: 80.0,
+                                      height: 80.0,
                                     ),
-                                    Text(
-                                      snapshot.data.documents[index]['name'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.black87,
-                                        fontFamily: 'OpenSans',
-                                        fontSize: 18,
-                                      ),
+                                  ),
+                                  Text(
+                                    snapshot.data.documents[index]['name'],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.black87,
+                                      fontFamily: 'OpenSans',
+                                      fontSize: 18,
                                     ),
-                                  ],
-                                ),
-                                Divider(color: Colors.black87),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                              Divider(color: Colors.black87),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   );
-                }),
-          ],
-        ),
+                }});
+  }
+
+  Widget _createFilteredListView() {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: _filteredRecipes.length,
+      itemBuilder: (context, index) => Column(
+        children: <Widget>[
+          new ListTile(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DishPage(recipeId: index)));
+            },
+            title: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Image.network(
+                        _filteredRecipes[index].imageUrl,
+                        width: 80.0,
+                        height: 80.0,
+                      ),
+                    ),
+                    Text(
+                      _filteredRecipes[index].name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black87,
+                        fontFamily: 'OpenSans',
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(color: Colors.black87),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
+//class DataSearch extends SearchDelegate<String> {
+//  final recipes;
+//
+//  DataSearch(this.recipes);
+//
+//  @override
+//  List<Widget> buildActions(BuildContext context) {
+//    return [
+//      IconButton(
+//        icon: Icon(Icons.clear),
+//        onPressed: () {},
+//      )
+//    ];
+//  }
+//
+//  @override
+//  Widget buildLeading(BuildContext context) {
+//    // TODO: implement buildLeading
+//    return null;
+//  }
+//
+//  @override
+//  Widget buildResults(BuildContext context) {
+//    // TODO: implement buildResults
+//    return null;
+//  }
+//
+//  @override
+//  Widget buildSuggestions(BuildContext context) {
+//    final suggestionsList = query.isEmpty
+//        ? recipes
+//        : recipes.where((p) => p.name.startsWith(query)).toList();
+//
+//    return ListView.builder(
+//      scrollDirection: Axis.vertical,
+//      shrinkWrap: true,
+//      itemCount: suggestionsList.length,
+//      itemBuilder: (context, index) => Column(
+//        children: <Widget>[
+//          new ListTile(
+//            onTap: () {
+//              Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                      builder: (context) => DishPage(recipeId: index)));
+//            },
+//            title: Column(
+//              children: <Widget>[
+//                Row(
+//                  children: <Widget>[
+//                    Padding(
+//                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+//                      child: Image.network(
+//                        suggestionsList[index].imageUrl,
+//                        width: 80.0,
+//                        height: 80.0,
+//                      ),
+//                    ),
+//                    Text(
+//                      suggestionsList[index].name,
+//                      style: TextStyle(
+//                        fontWeight: FontWeight.w300,
+//                        color: Colors.black87,
+//                        fontFamily: 'OpenSans',
+//                        fontSize: 18,
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//                Divider(color: Colors.black87),
+//              ],
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+//}

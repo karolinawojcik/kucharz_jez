@@ -15,16 +15,8 @@ class MainPage extends StatefulWidget{
   @override
   _MainPageState createState() => _MainPageState();
 }
-enum TabItem { home, search, recipes, profile }
 
 class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
-  TabItem currentTab = TabItem.home;
-
-  void _selectTab(TabItem tabItem) {
-    setState(() {
-      currentTab = tabItem;
-    });
-  }
 
   TabController _controller;
   @override

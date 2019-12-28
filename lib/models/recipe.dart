@@ -1,39 +1,21 @@
 class Recipe {
   final int id;
-  final List<String> ingredients;
-  final List<String> instruction;
   final String name;
+  final String imageUrl;
+  final List<dynamic> ingredients;
+  final List<dynamic> instruction;
+  final List<dynamic> types;
   final int difficulty;
-  final String image_url;
   final int time;
-  final List<String> types;
 
-  Recipe(
-      int id,
-      List<String> ingredients,
-      List<String> instruction,
-      String name,
-      int difficulty,
-      String image_url,
-      int time,
-      List<String> types)
+  Recipe(int id, String name, String imageUrl, List<dynamic> ingredients,
+      List<dynamic> instruction, List<dynamic> types, int difficulty, int time)
       : this.id = id,
+        this.name = name,
+        this.imageUrl = imageUrl,
         this.ingredients = ingredients,
         this.instruction = instruction,
-        this.name = name,
+        this.types = types,
         this.difficulty = difficulty,
-        this.image_url = image_url,
-        this.time = time,
-        this.types = types;
-
-  Recipe.fromMap(Map<String, dynamic> data, int id)
-      : this(
-            id,
-            new List<String>.from(data['ingredients']),
-            new List<String>.from(data['instruction']),
-            data['name'],
-            data['difficulty'],
-            data['image_url'],
-            data['time'],
-            data['types']);
+        this.time = time;
 }
