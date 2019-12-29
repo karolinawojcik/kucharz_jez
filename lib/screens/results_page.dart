@@ -52,15 +52,14 @@ class _ResultsPageState extends State<ResultsPage> {
     if(widget.recipes.length == 0){
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top: 20.0),
           child: Text(
             'Brak wyników',
             style: TextStyle(
               fontWeight: FontWeight.w300,
               color: Colors.black87,
-              fontFamily: 'OpenSans',
-              fontStyle: FontStyle.italic,
-              fontSize: 30,
+              fontFamily: 'AmaticSC',
+              fontSize: 36,
             ),
           ),
         ),
@@ -91,13 +90,17 @@ class _ResultsPageState extends State<ResultsPage> {
                         height: 80.0,
                       ),
                     ),
-                    Text(
-                      widget.recipes[index].name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black87,
-                        fontFamily: 'OpenSans',
-                        fontSize: 18,
+                    Flexible(
+                      child: Text(
+                        widget.recipes[index].name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black87,
+                          fontFamily: 'OpenSans',
+                          fontSize: 18,
+                        ),
+                        //overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                       ),
                     ),
                   ],

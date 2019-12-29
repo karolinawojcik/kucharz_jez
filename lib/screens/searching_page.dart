@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:kucharz_jez/screens/results_page.dart';
 
 class SearchingPage extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class _SearchingPageState extends State<SearchingPage> {
   List<String> ingredients = [];
   List<String> actualIngredients = [];
   List<String> existingIngredients = [];
+  List<Recipe> recipes = [];
   var _searchView = new TextEditingController();
   var emptyQuery = '';
   bool isLoading = true;
@@ -25,7 +27,6 @@ class _SearchingPageState extends State<SearchingPage> {
   }
 
   Future<void> getAllIngredients() async {
-    List<Recipe> recipes = [];
     List<String> results = [];
     QuerySnapshot querySnapshot =
         await Firestore.instance.collection('recipes').getDocuments();
@@ -220,7 +221,7 @@ class _SearchingPageState extends State<SearchingPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          searchForRecipes();
         },
         child: Icon(Icons.search, color: Colors.white),
         backgroundColor: Colors.red[600],
@@ -236,5 +237,29 @@ class _SearchingPageState extends State<SearchingPage> {
   void addToIngredients(String item) {
     if (!actualIngredients.contains(item)) actualIngredients.add(item);
     refresh();
+  }
+
+  void searchForRecipes(){
+    List<Recipe> results = [];
+    for(var recipe in recipes){
+      bool containsAll = true;
+      List<String> recipeIngredients = [];
+      for(var i in recipe.ingredients){
+        recipeIngredients.add(i['name']);
+      }
+      for(var ingredient in recipeIngredients){
+        if(!ingredients.contains(ingredient)){
+          containsAll = false;
+          break;
+        }
+      }
+      if(containsAll){
+        results.add(recipe);
+      }
+    }
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ResultsPage(recipes: results)));
   }
 }

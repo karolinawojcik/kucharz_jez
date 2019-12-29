@@ -4,10 +4,6 @@ import 'package:kucharz_jez/models/recipe.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
 
 class NamesSearchingPage extends StatefulWidget {
-//  final Function() notifyParent;
-//
-//  const NamesSearchingPage({Key key, this.notifyParent}) : super(key: key);
-
   @override
   _NamesSearchingPageState createState() => _NamesSearchingPageState();
 }
@@ -176,13 +172,17 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                                 height: 80.0,
                               ),
                             ),
-                            Text(
-                              snapshot.data.documents[index]['name'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                color: Colors.black87,
-                                fontFamily: 'OpenSans',
-                                fontSize: 18,
+                            Flexible(
+                              child: Text(
+                                snapshot.data.documents[index]['name'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black87,
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 18,
+                                ),
+                                //overflow: TextOverflow.clip,
+                                maxLines: 3,
                               ),
                             ),
                           ],
@@ -231,6 +231,8 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                         fontFamily: 'OpenSans',
                         fontSize: 18,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
                     ),
                   ],
                 ),

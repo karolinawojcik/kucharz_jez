@@ -43,7 +43,9 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
       'dania z jaj',
       'mięsa',
       'na zimno',
-      'dania mączne'
+      'dania mączne',
+      'kurczak',
+      'ryż',
     ];
     _tags.sort();
   }
@@ -138,11 +140,6 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
                 children: <Widget>[
                   new ListTile(
                     onTap: () {
-//                      Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                              builder: (context) =>
-//                                  DishPage(recipeId: index)));
                       _searchForRecipesWithTag(_tags[index]);
                     },
                     title: Column(
