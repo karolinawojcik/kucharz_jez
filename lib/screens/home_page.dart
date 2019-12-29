@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
+import 'package:dart_random_choice/dart_random_choice.dart';
 
 //class RecipeCard extends StatelessWidget {
 //  final Recipe recipe;
@@ -112,6 +113,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Recipe> recipes = [];
   bool isLoading = true;
+  List<Recipe> recipesForToday = [];
 
   @override
   void initState() {
@@ -146,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: recipes.length,
+                itemCount: recipesForToday.length,
                 itemBuilder: (context, index) => Column(
                   children: <Widget>[
                     new ListTile(
@@ -155,7 +157,7 @@ class _HomePageState extends State<HomePage> {
       onTap: () {Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => DishPage(recipeId: index)));},
+              builder: (context) => DishPage(recipeId: recipesForToday[index].id)));},
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: Card(
@@ -168,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                   AspectRatio(
                     aspectRatio: 16.0 / 9.0,
                     child: Image.network(
-                      recipes[index].imageUrl,
+                      recipesForToday[index].imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -197,7 +199,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                    recipes[index].name,
+                recipesForToday[index].name,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: Colors.black87,
@@ -217,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                   Icon(Icons.timer, size: 25.0),
                   SizedBox(width: 5.0),
                   Text(
-                    recipes[index].time.toString() + ' min',
+                    recipesForToday[index].time.toString() + ' min',
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                       color: Colors.black87,
@@ -233,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(width: 5.0),
                   Text(
-                    difficultyString(recipes[index].difficulty),
+                    difficultyString(recipesForToday[index].difficulty),
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                       color: Colors.black87,
@@ -398,6 +400,7 @@ class _HomePageState extends State<HomePage> {
           f['difficulty'],
           f['time']));
     }
+    randomRecipesForDay();
     setState(() {
       isLoading = false;
     });
@@ -410,7 +413,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget displayDifficulty(int index){
-    if(recipes[index].difficulty == 1){
+    if(recipesForToday[index].difficulty == 1){
       return Row(
         children: <Widget>[
           SizedBox(width: 5.0),
@@ -422,7 +425,7 @@ class _HomePageState extends State<HomePage> {
     ],
       );
     }
-    if(recipes[index].difficulty == 2){
+    if(recipesForToday[index].difficulty == 2){
       return Row(
         children: <Widget>[
           SizedBox(width: 5.0),
@@ -465,5 +468,16 @@ class _HomePageState extends State<HomePage> {
       );
     }
   }
-
+  void randomRecipesForDay(){
+    List<Recipe> results = [];
+    while(results.length < 3){
+      var randomRecipe = randomChoice(recipes);
+      if(!results.contains(randomRecipe)){
+        results.add(randomRecipe);
+      }
+    }
+    setState(() {
+      recipesForToday = results;
+    });
+  }
 }

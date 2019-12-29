@@ -223,16 +223,18 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                         height: 80.0,
                       ),
                     ),
-                    Text(
-                      _filteredRecipes[index].name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black87,
-                        fontFamily: 'OpenSans',
-                        fontSize: 18,
+                    Flexible(
+                      child: Text(
+                        _filteredRecipes[index].name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black87,
+                          fontFamily: 'OpenSans',
+                          fontSize: 18,
+                        ),
+                        //overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
                     ),
                   ],
                 ),

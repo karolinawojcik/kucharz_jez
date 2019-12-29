@@ -57,14 +57,7 @@ class _DishPageState extends State<DishPage>{
               stream: Firestore.instance.collection('recipes').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return const Text(
-                    'Loading',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: 'OpenSans',
-                      color: Colors.black87,
-                    ),
-                  );
+                  return  Center(child:CircularProgressIndicator(),);
                 return Column(
                   children: <Widget>[
                     Padding(
@@ -74,39 +67,60 @@ class _DishPageState extends State<DishPage>{
                         fit: BoxFit.fitWidth,
                       ),
                     ),
-                    Text(
-                      snapshot.data.documents[widget.recipeId]['name'],
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                        fontFamily: 'AmaticSC',
-                        fontSize: 45,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal:10.0),
+                      child: Text(
+                        snapshot.data.documents[widget.recipeId]['name'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                          fontFamily: 'AmaticSC',
+                          fontSize: 45,
+                        ),
                       ),
                     ),
                     Divider(color: Colors.black87),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        snapshot
-                            .data.documents[widget.recipeId]['types'].length,
-                        (index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 5.0),
-                            child: Text(
-                              snapshot.data.documents[widget.recipeId]['types']
-                                  [index],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87,
-                                fontFamily: 'OpenSans',
-                                fontSize: 16,
-                                fontStyle: FontStyle.italic,
+                    Container(
+                      height: (snapshot
+                          .data.documents[widget.recipeId]['types'].length / 3) * 65.0 + 40,
+                      width: 420.0,
+                      child: GridView.count(
+                        childAspectRatio: 16.0 / 5.0,
+                        primary: false,
+                        padding: const EdgeInsets.symmetric(vertical:20),
+//                        crossAxisSpacing: 5,
+//                        mainAxisSpacing: 40,
+                        crossAxisCount: 3,
+                        children: List.generate(
+                          snapshot
+                              .data.documents[widget.recipeId]['types'].length,
+                          (index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: Colors.green[900],
+                                borderRadius: BorderRadius.all(Radius.circular(22.0)),
+                                border: Border.all(color: Colors.white),
                               ),
-                            ),
-                          );
-                        },
+                              height: 25.0,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0, vertical: 5.0),
+                                  child: Text(
+                                    snapshot.data.documents[widget.recipeId]['types']
+                                        [index],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                      fontFamily: 'OpenSans',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                     Padding(
@@ -284,6 +298,20 @@ class _DishPageState extends State<DishPage>{
                         ],
                       ),
                     ),
+                    SizedBox(height: 5.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        'SMACZNEGO!',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black87,
+                          fontFamily: 'AmaticSC',
+                          fontSize: 36,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
                   ],
                 );
               },

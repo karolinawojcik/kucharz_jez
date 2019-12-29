@@ -1,5 +1,13 @@
-class User{
-  final String uid;
+import 'package:kucharz_jez/models/recipe.dart';
 
-  User({this.uid});
+class User{
+  final int id;
+  final String userName;
+  List<Recipe> favoriteRecipes = [];
+  List<String> shoppingList = [];
+
+  User(int id, String userName)
+      : this.id = id,
+  this.userName = userName;
+
 }

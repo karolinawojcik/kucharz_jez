@@ -76,7 +76,7 @@ class _ResultsPageState extends State<ResultsPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DishPage(recipeId: index)));
+                      builder: (context) => DishPage(recipeId: widget.recipes[index].id)));
             },
             title: Column(
               children: <Widget>[
