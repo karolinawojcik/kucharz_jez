@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/names_searching_page.dart';
 import 'package:kucharz_jez/screens/tags_searching_page.dart';
 
 class RecipesPage extends StatefulWidget {
+  final AppUser user;
+
+  const RecipesPage({Key key, this.user}) : super(key: key);
+
   @override
   _RecipesPageState createState() => _RecipesPageState();
 }
 
 class _RecipesPageState extends State<RecipesPage> {
   String dropdownValue = 'nazwa';
-  Widget actualResultList = new NamesSearchingPage();
-  Widget resultList = new NamesSearchingPage();
+  Widget actualResultList;
+  Widget resultList;
 
   @override
   void initState() {
     super.initState();
+    actualResultList = new NamesSearchingPage(user: widget.user);
     resultList = actualResultList;
   }
+
   void refresh() {
     setState(() {
       resultList = actualResultList;
@@ -55,7 +62,9 @@ class _RecipesPageState extends State<RecipesPage> {
                     setState(() {
                       dropdownValue = newValue;
                     });
-                    actualResultList = (newValue == 'nazwa' ? new NamesSearchingPage() : new TagsSearchingPage());
+                    actualResultList = (newValue == 'nazwa'
+                        ? new NamesSearchingPage(user: widget.user)
+                        : new TagsSearchingPage(user: widget.user));
                     refresh();
                   },
                   items: <String>['nazwa', 'tagi']

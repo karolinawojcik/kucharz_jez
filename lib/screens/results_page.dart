@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
+import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
 
 class ResultsPage extends StatefulWidget {
+  final AppUser user;
   final List<Recipe> recipes;
 
-  const ResultsPage({Key key, this.recipes}) : super(key: key);
+  const ResultsPage({Key key, this.recipes, this.user}) : super(key: key);
   @override
   _ResultsPageState createState() => _ResultsPageState();
 }
@@ -76,7 +78,7 @@ class _ResultsPageState extends State<ResultsPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DishPage(recipeId: widget.recipes[index].id)));
+                      builder: (context) => DishPage(recipeId: widget.recipes[index].id, user: widget.user)));
             },
             title: Column(
               children: <Widget>[

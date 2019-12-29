@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
+import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
 import 'package:dart_random_choice/dart_random_choice.dart';
 
@@ -106,6 +107,10 @@ import 'package:dart_random_choice/dart_random_choice.dart';
 //}
 
 class HomePage extends StatefulWidget {
+  final AppUser user;
+
+  const HomePage({Key key, this.user}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -142,123 +147,143 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               isLoading
-                  ? Center(child:CircularProgressIndicator(),)
-                  :
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: recipesForToday.length,
-                itemBuilder: (context, index) => Column(
-                  children: <Widget>[
-                    new ListTile(
-                      onTap: () {},
-                      title: GestureDetector(
-      onTap: () {Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DishPage(recipeId: recipesForToday[index].id)));},
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 16.0 / 9.0,
-                    child: Image.network(
-                      recipesForToday[index].imageUrl,
-                      fit: BoxFit.cover,
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: recipesForToday.length,
+                      itemBuilder: (context, index) => Column(
+                        children: <Widget>[
+                          new ListTile(
+                              onTap: () {},
+                              title: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DishPage(
+                                              recipeId:
+                                                  recipesForToday[index].id,
+                                              user: widget.user)));
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.0, vertical: 5.0),
+                                  child: Card(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Stack(
+                                          children: <Widget>[
+                                            AspectRatio(
+                                              aspectRatio: 16.0 / 9.0,
+                                              child: Image.network(
+                                                recipesForToday[index].imageUrl,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              child: RawMaterialButton(
+                                                constraints:
+                                                    const BoxConstraints(
+                                                        minWidth: 40.0,
+                                                        minHeight: 40.0),
+                                                onPressed: () {},
+                                                child: Icon(
+                                                  // Conditional expression:
+                                                  // show "favorite" icon or "favorite border" icon depending on widget.inFavorites:
+                                                  Icons
+                                                      .favorite, // : Icons.favorite_border,
+                                                ),
+                                                elevation: 2.0,
+                                                fillColor: Colors.white,
+                                                shape: CircleBorder(),
+                                              ),
+                                              top: 2.0,
+                                              right: 2.0,
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            SizedBox(height: 5.0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: Text(
+                                                recipesForToday[index].name,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black87,
+                                                  fontFamily: 'OpenSans',
+                                                  fontSize: 22,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 3,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5.0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10.0),
+                                              child: Row(children: <Widget>[
+                                                SizedBox(width: 5.0),
+                                                Icon(Icons.timer, size: 25.0),
+                                                SizedBox(width: 5.0),
+                                                Text(
+                                                  recipesForToday[index]
+                                                          .time
+                                                          .toString() +
+                                                      ' min',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w300,
+                                                    color: Colors.black87,
+                                                    fontFamily: 'OpenSans',
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10.0),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 3.0),
+                                                  child:
+                                                      displayDifficulty(index),
+                                                ),
+                                                SizedBox(width: 5.0),
+                                                Text(
+                                                  difficultyString(
+                                                      recipesForToday[index]
+                                                          .difficulty),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w300,
+                                                    color: Colors.black87,
+                                                    fontFamily: 'OpenSans',
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ]),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ],
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    child: RawMaterialButton(
-        constraints: const BoxConstraints(minWidth: 40.0, minHeight: 40.0),
-        onPressed: (){},
-        child: Icon(
-          // Conditional expression:
-          // show "favorite" icon or "favorite border" icon depending on widget.inFavorites:
-          Icons.favorite, // : Icons.favorite_border,
-        ),
-        elevation: 2.0,
-        fillColor: Colors.white,
-        shape: CircleBorder(),
-      ),
-                    top: 2.0,
-                    right: 2.0,
-                  ),
-                ],
-              ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 5.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                recipesForToday[index].name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black87,
-                      fontFamily: 'OpenSans',
-                      fontSize: 22,
-                    ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 3,
-                  ),
-            ),
-            SizedBox(height: 5.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical:10.0),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: 5.0),
-                  Icon(Icons.timer, size: 25.0),
-                  SizedBox(width: 5.0),
-                  Text(
-                    recipesForToday[index].time.toString() + ' min',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      color: Colors.black87,
-                      fontFamily: 'OpenSans',
-                      fontStyle: FontStyle.italic,
-                      fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(width: 10.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical:3.0),
-                    child: displayDifficulty(index),
-                  ),
-                  SizedBox(width: 5.0),
-                  Text(
-                    difficultyString(recipesForToday[index].difficulty),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      color: Colors.black87,
-                      fontFamily: 'OpenSans',
-                      fontStyle: FontStyle.italic,
-                      fontSize: 18,
-                    ),
-                  ),
-                ]
-              ),
-            ),
-          ],
-        ),
-            ],
-          ),
-        ),
-      ),
-    )
-
-                    ),
-                  ],
-                ),
-              ),
 //              StreamBuilder(
 //                stream:
 //                    Firestore.instance.collection('recipes').snapshots(),
@@ -279,7 +304,7 @@ class _HomePageState extends State<HomePage> {
 //                    itemBuilder: (context, index) {
 //                      return ListTile(
 //                        title: Text('kurczaczek'),
-                          //Card(
+              //Card(
 //                          child: Column(
 //                            mainAxisSize: MainAxisSize.min,
 //                            crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,7 +412,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> getAllRecipes() async {
     QuerySnapshot querySnapshot =
-    await Firestore.instance.collection('recipes').getDocuments();
+        await Firestore.instance.collection('recipes').getDocuments();
     var list = querySnapshot.documents;
     for (var f in list) {
       recipes.add(new Recipe(
@@ -412,8 +437,8 @@ class _HomePageState extends State<HomePage> {
     return 'trudne';
   }
 
-  Widget displayDifficulty(int index){
-    if(recipesForToday[index].difficulty == 1){
+  Widget displayDifficulty(int index) {
+    if (recipesForToday[index].difficulty == 1) {
       return Row(
         children: <Widget>[
           SizedBox(width: 5.0),
@@ -422,10 +447,10 @@ class _HomePageState extends State<HomePage> {
             size: 25,
             color: Colors.red[600],
           ),
-    ],
+        ],
       );
     }
-    if(recipesForToday[index].difficulty == 2){
+    if (recipesForToday[index].difficulty == 2) {
       return Row(
         children: <Widget>[
           SizedBox(width: 5.0),
@@ -442,8 +467,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       );
-    }
-    else{
+    } else {
       return Row(
         children: <Widget>[
           SizedBox(width: 5.0),
@@ -468,11 +492,12 @@ class _HomePageState extends State<HomePage> {
       );
     }
   }
-  void randomRecipesForDay(){
+
+  void randomRecipesForDay() {
     List<Recipe> results = [];
-    while(results.length < 3){
+    while (results.length < 3) {
       var randomRecipe = randomChoice(recipes);
-      if(!results.contains(randomRecipe)){
+      if (!results.contains(randomRecipe)) {
         results.add(randomRecipe);
       }
     }

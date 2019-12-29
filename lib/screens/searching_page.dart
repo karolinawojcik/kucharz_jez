@@ -2,9 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/results_page.dart';
 
 class SearchingPage extends StatefulWidget {
+  final AppUser user;
+
+  const SearchingPage({Key key, this.user}) : super(key: key);
   @override
   _SearchingPageState createState() => _SearchingPageState();
 }
@@ -260,6 +264,6 @@ class _SearchingPageState extends State<SearchingPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ResultsPage(recipes: results)));
+            builder: (context) => ResultsPage(recipes: results, user: widget.user)));
   }
 }

@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
+import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
 
 class NamesSearchingPage extends StatefulWidget {
+  final AppUser user;
+
+  const NamesSearchingPage({Key key, this.user}) : super(key: key);
   @override
   _NamesSearchingPageState createState() => _NamesSearchingPageState();
 }
@@ -156,7 +160,7 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  DishPage(recipeId: index)));
+                                  DishPage(recipeId: index, user: widget.user)));
                     },
                     title: Column(
                       children: <Widget>[
@@ -209,7 +213,7 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DishPage(recipeId: index)));
+                      builder: (context) => DishPage(recipeId: _filteredRecipes[index].id, user: widget.user)));
             },
             title: Column(
               children: <Widget>[

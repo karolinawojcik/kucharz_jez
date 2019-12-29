@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
+import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/results_page.dart';
 
 class TagsSearchingPage extends StatefulWidget {
-//  final Function() notifyParent;
-//
-//  const TagsSearchingPage({Key key, this.notifyParent}) : super(key: key);
+  final AppUser user;
 
+  const TagsSearchingPage({Key key, this.user}) : super(key: key);
   @override
   _TagsSearchingPageState createState() => _TagsSearchingPageState();
 }
@@ -239,6 +239,6 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ResultsPage(recipes: results)));
+            builder: (context) => ResultsPage(recipes: results, user: widget.user)));
   }
 }

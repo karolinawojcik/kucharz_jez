@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kucharz_jez/models/user.dart';
 
 class DishPage extends StatefulWidget {
   final int recipeId;
+  final AppUser user;
 
-  const DishPage({Key key, this.recipeId}) : super(key: key);
+  const DishPage({Key key, this.recipeId, this.user}) : super(key: key);
 
   @override
   _DishPageState createState() => _DishPageState();
 }
 
-class _DishPageState extends State<DishPage>{
+class _DishPageState extends State<DishPage> {
   String difficultyString(int difficulty) {
     if (difficulty == 1) return 'łatwe';
     if (difficulty == 2) return 'średnie';
@@ -57,7 +59,9 @@ class _DishPageState extends State<DishPage>{
               stream: Firestore.instance.collection('recipes').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return  Center(child:CircularProgressIndicator(),);
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 return Column(
                   children: <Widget>[
                     Padding(
@@ -68,7 +72,7 @@ class _DishPageState extends State<DishPage>{
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal:10.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Text(
                         snapshot.data.documents[widget.recipeId]['name'],
                         style: TextStyle(
@@ -81,13 +85,16 @@ class _DishPageState extends State<DishPage>{
                     ),
                     Divider(color: Colors.black87),
                     Container(
-                      height: (snapshot
-                          .data.documents[widget.recipeId]['types'].length / 3) * 65.0 + 40,
+                      height: (snapshot.data.documents[widget.recipeId]['types']
+                                      .length /
+                                  3) *
+                              65.0 +
+                          40,
                       width: 420.0,
                       child: GridView.count(
                         childAspectRatio: 16.0 / 5.0,
                         primary: false,
-                        padding: const EdgeInsets.symmetric(vertical:20),
+                        padding: const EdgeInsets.symmetric(vertical: 20),
 //                        crossAxisSpacing: 5,
 //                        mainAxisSpacing: 40,
                         crossAxisCount: 3,
@@ -98,7 +105,8 @@ class _DishPageState extends State<DishPage>{
                             return Container(
                               decoration: BoxDecoration(
                                 color: Colors.green[900],
-                                borderRadius: BorderRadius.all(Radius.circular(22.0)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(22.0)),
                                 border: Border.all(color: Colors.white),
                               ),
                               height: 25.0,
@@ -107,8 +115,8 @@ class _DishPageState extends State<DishPage>{
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10.0, vertical: 5.0),
                                   child: Text(
-                                    snapshot.data.documents[widget.recipeId]['types']
-                                        [index],
+                                    snapshot.data.documents[widget.recipeId]
+                                        ['types'][index],
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.white,

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kucharz_jez/models/user.dart';
 
 class ProfilePage extends StatefulWidget {
+  final AppUser user;
+
+  const ProfilePage({Key key, this.user}) : super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -30,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Text(
-                'Username',
+                widget.user.userName,
                 style: TextStyle(
                   fontSize: 36.0,
                   fontWeight: FontWeight.w400,
