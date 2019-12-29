@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kucharz_jez/models/recipe.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
 import 'package:kucharz_jez/screens/home_page.dart';
 import 'package:kucharz_jez/screens/profile_page.dart';
@@ -20,11 +22,11 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
   TabController _controller;
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState()  {
     super.initState();
     _controller = new TabController(vsync: this, length: 4, initialIndex: 0);
   }
+
   @override
   Widget build (BuildContext context) {
     return new Scaffold(
