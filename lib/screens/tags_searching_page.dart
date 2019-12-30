@@ -8,6 +8,7 @@ class TagsSearchingPage extends StatefulWidget {
   final AppUser user;
 
   const TagsSearchingPage({Key key, this.user}) : super(key: key);
+
   @override
   _TagsSearchingPageState createState() => _TagsSearchingPageState();
 }
@@ -50,7 +51,7 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
     _tags.sort();
   }
 
-  _TagsSearchingPageState(){
+  _TagsSearchingPageState() {
     _searchView.addListener(() {
       if (_searchView.text.isEmpty) {
         setState(() {
@@ -66,55 +67,52 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
     });
   }
 
-  Widget printList(){
+  Widget printList() {
     return _firstSearch ? _createListView() : _performListView();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              height: 45.0,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(22.0)),
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: TextFormField(
-                        controller: _searchView,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Szukaj w przepisach',
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            color: Colors.black87,
-                            fontFamily: 'OpenSans',
-                          ),
-                          icon: GestureDetector(
-                            child: Icon(Icons.search, color: Colors.black87),
-                          ),
-                        ),
+      child: Column(children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          height: 45.0,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(22.0)),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: TextFormField(
+                    controller: _searchView,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Szukaj w przepisach',
+                      hintStyle: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black87,
+                        fontFamily: 'OpenSans',
+                      ),
+                      icon: GestureDetector(
+                        child: Icon(Icons.search, color: Colors.black87),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-            printList(),
-          ]
-      ),
+            ],
+          ),
+        ),
+        printList(),
+      ]),
     );
   }
 
@@ -131,42 +129,42 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
   }
 
   Widget _createListView() {
-        return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: _tags.length,
-              itemBuilder: (context, index) => Column(
-                children: <Widget>[
-                  new ListTile(
-                    onTap: () {
-                      _searchForRecipesWithTag(_tags[index]);
-                    },
-                    title: Column(
-                      children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal:10.0),
-                                  child: Text(
-                                    _tags[index],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.black87,
-                                      fontFamily: 'OpenSans',
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                        Divider(color: Colors.black87),
-                      ],
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: _tags.length,
+      itemBuilder: (context, index) => Column(
+        children: <Widget>[
+          new ListTile(
+            onTap: () {
+              _searchForRecipesWithTag(_tags[index]);
+            },
+            title: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        _tags[index],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black87,
+                          fontFamily: 'OpenSans',
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
+                  ],
+                ),
+                Divider(color: Colors.black87),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _createFilteredListView() {
@@ -179,30 +177,26 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
         children: <Widget>[
           new ListTile(
             onTap: () {
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                      builder: (context) => DishPage(recipeId: index)));
               _searchForRecipesWithTag(_filteredTags[index]);
             },
             title: Column(
               children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal:10.0),
-                          child: Text(
-                            _filteredTags[index],
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              color: Colors.black87,
-                              fontFamily: 'OpenSans',
-                              fontSize: 18,
-                            ),
-                          ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        _filteredTags[index],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black87,
+                          fontFamily: 'OpenSans',
+                          fontSize: 18,
                         ),
-                      ],
+                      ),
                     ),
+                  ],
+                ),
                 Divider(color: Colors.black87),
               ],
             ),
@@ -211,12 +205,14 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
       ),
     );
   }
+
   Future<void> _searchForRecipesWithTag(String tag) async {
     List<Recipe> recipes = [];
     List<Recipe> results = [];
-    QuerySnapshot querySnapshot = await Firestore.instance.collection('recipes').getDocuments();
+    QuerySnapshot querySnapshot =
+        await Firestore.instance.collection('recipes').getDocuments();
     var list = querySnapshot.documents;
-    for(var f in list){
+    for (var f in list) {
       recipes.add(new Recipe(
           int.parse(f.documentID),
           f['name'],
@@ -227,10 +223,10 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
           f['difficulty'],
           f['time']));
     }
-    for(var recipe in recipes){
+    for (var recipe in recipes) {
       var types = recipe.types;
-      for(var type in types){
-        if(type == tag){
+      for (var type in types) {
+        if (type == tag) {
           results.add(recipe);
           break;
         }
@@ -239,6 +235,7 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ResultsPage(recipes: results, user: widget.user, message: tag)));
+            builder: (context) => ResultsPage(
+                recipes: results, user: widget.user, message: tag)));
   }
 }

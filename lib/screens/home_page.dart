@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/recipe.dart';
 import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/dish_page.dart';
-import 'package:dart_random_choice/dart_random_choice.dart';
 
 class HomePage extends StatefulWidget {
   final AppUser user;
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Text(
-                  'Kucharz Jeż poleca:',
+                  'Kucharz Jeż poleca dzisiaj:',
                   style: TextStyle(
                     fontSize: 40.0,
                     fontWeight: FontWeight.bold,
@@ -96,7 +95,9 @@ class _HomePageState extends State<HomePage> {
                                                 onPressed: () {},
                                                 child: Icon(
                                                   isInFavorites(
-                                                          index.toString())
+                                                          recipesForToday[index]
+                                                              .id
+                                                              .toString())
                                                       ? Icons.favorite
                                                       : Icons.favorite_border,
                                                 ),
@@ -207,6 +208,7 @@ class _HomePageState extends State<HomePage> {
           f['time']));
     }
     randomRecipesForDay();
+    await widget.user.updateData();
     setState(() {
       isLoading = false;
     });
@@ -276,10 +278,13 @@ class _HomePageState extends State<HomePage> {
 
   void randomRecipesForDay() {
     List<Recipe> results = [];
-    while (results.length < 3) {
-      var randomRecipe = randomChoice(recipes);
-      if (!results.contains(randomRecipe)) {
-        results.add(randomRecipe);
+    widget.user.randomRecipesForDay(recipes);
+    for (var i in widget.user.recipesForToday) {
+      for (var recipe in recipes) {
+        if (recipe.id == i) {
+          results.add(recipe);
+          break;
+        }
       }
     }
     setState(() {

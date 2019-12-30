@@ -9,6 +9,7 @@ class SearchingPage extends StatefulWidget {
   final AppUser user;
 
   const SearchingPage({Key key, this.user}) : super(key: key);
+
   @override
   _SearchingPageState createState() => _SearchingPageState();
 }
@@ -74,8 +75,7 @@ class _SearchingPageState extends State<SearchingPage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: GestureDetector(
-            child: Icon(Icons.add,
-                color: Colors.black87),
+            child: Icon(Icons.add, color: Colors.black87),
           ),
         ),
         Padding(
@@ -132,40 +132,42 @@ class _SearchingPageState extends State<SearchingPage> {
                       child: Column(
                         children: <Widget>[
                           isLoading
-                              ? Center(child:CircularProgressIndicator(),)
+                              ? Center(
+                                  child: CircularProgressIndicator(),
+                                )
                               : SingleChildScrollView(
-                            child: AutoCompleteTextField<String>(
-                                    suggestions: existingIngredients,
-                                    controller: _searchView,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Wpisz nazwę produktu',
-                                      hintStyle: TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.black87,
-                                        fontFamily: 'OpenSans',
-                                        fontSize: 16,
+                                  child: AutoCompleteTextField<String>(
+                                      suggestions: existingIngredients,
+                                      controller: _searchView,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Wpisz nazwę produktu',
+                                        hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.black87,
+                                          fontFamily: 'OpenSans',
+                                          fontSize: 16,
+                                        ),
+                                        icon: GestureDetector(
+                                          child: Icon(Icons.add,
+                                              color: Colors.black87),
+                                        ),
                                       ),
-                                      icon: GestureDetector(
-                                        child: Icon(Icons.add,
-                                            color: Colors.black87),
-                                      ),
-                                    ),
-                                    itemFilter: (item, query) {
-                                      return item
-                                          .toLowerCase()
-                                          .startsWith(query.toLowerCase());
-                                    },
-                                    itemSorter: (a, b) {
-                                      return a.compareTo(b);
-                                    },
-                                    itemSubmitted: (item) {
-                                      addToIngredients(item);
-                                    },
-                                    itemBuilder: (context, item) {
-                                      return row(item);
-                                    }),
-                              ),
+                                      itemFilter: (item, query) {
+                                        return item
+                                            .toLowerCase()
+                                            .startsWith(query.toLowerCase());
+                                      },
+                                      itemSorter: (a, b) {
+                                        return a.compareTo(b);
+                                      },
+                                      itemSubmitted: (item) {
+                                        addToIngredients(item);
+                                      },
+                                      itemBuilder: (context, item) {
+                                        return row(item);
+                                      }),
+                                ),
                         ],
                       ),
                     ),
@@ -181,8 +183,7 @@ class _SearchingPageState extends State<SearchingPage> {
               itemBuilder: (context, index) => Column(
                 children: <Widget>[
                   new ListTile(
-                    onTap: () {
-                    },
+                    onTap: () {},
                     title: Column(
                       children: <Widget>[
                         Row(
@@ -239,27 +240,30 @@ class _SearchingPageState extends State<SearchingPage> {
     refresh();
   }
 
-  void searchForRecipes(){
+  void searchForRecipes() {
     List<Recipe> results = [];
-    for(var recipe in recipes){
+    for (var recipe in recipes) {
       bool containsAll = true;
       List<String> recipeIngredients = [];
-      for(var i in recipe.ingredients){
+      for (var i in recipe.ingredients) {
         recipeIngredients.add(i['name']);
       }
-      for(var ingredient in recipeIngredients){
-        if(!ingredients.contains(ingredient)){
+      for (var ingredient in recipeIngredients) {
+        if (!ingredients.contains(ingredient)) {
           containsAll = false;
           break;
         }
       }
-      if(containsAll){
+      if (containsAll) {
         results.add(recipe);
       }
     }
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ResultsPage(recipes: results, user: widget.user, message: 'MOŻESZ PRZYGOTOWAć')));
+            builder: (context) => ResultsPage(
+                recipes: results,
+                user: widget.user,
+                message: 'MOŻESZ PRZYGOTOWAć')));
   }
 }

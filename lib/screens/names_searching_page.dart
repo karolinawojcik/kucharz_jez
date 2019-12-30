@@ -8,6 +8,7 @@ class NamesSearchingPage extends StatefulWidget {
   final AppUser user;
 
   const NamesSearchingPage({Key key, this.user}) : super(key: key);
+
   @override
   _NamesSearchingPageState createState() => _NamesSearchingPageState();
 }
@@ -24,7 +25,7 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
     super.initState();
   }
 
-  _NamesSearchingPageState(){
+  _NamesSearchingPageState() {
     _searchView.addListener(() {
       if (_searchView.text.isEmpty) {
         setState(() {
@@ -40,14 +41,15 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
     });
   }
 
-  void addRecipe(Recipe rec){
+  void addRecipe(Recipe rec) {
     _recipes.add(rec);
   }
 
   Future<void> initRecipes() async {
-    QuerySnapshot querySnapshot = await Firestore.instance.collection('recipes').getDocuments();
+    QuerySnapshot querySnapshot =
+        await Firestore.instance.collection('recipes').getDocuments();
     var list = querySnapshot.documents;
-    for(var f in list){
+    for (var f in list) {
       addRecipe(Recipe(
           int.parse(f.documentID),
           f['name'],
@@ -59,53 +61,52 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
           f['time']));
     }
   }
-  Widget printList(){
+
+  Widget printList() {
     return _firstSearch ? _createListView() : _performListView();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          height: 45.0,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(22.0)),
-            border: Border.all(color: Colors.grey),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: TextFormField(
-                    controller: _searchView,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Szukaj w przepisach',
-                      hintStyle: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black87,
-                        fontFamily: 'OpenSans',
-                      ),
-                      icon: GestureDetector(
-                        child: Icon(Icons.search, color: Colors.black87),
-                      ),
+    return Column(children: <Widget>[
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        height: 45.0,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(22.0)),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: TextFormField(
+                  controller: _searchView,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Szukaj w przepisach',
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      color: Colors.black87,
+                      fontFamily: 'OpenSans',
+                    ),
+                    icon: GestureDetector(
+                      child: Icon(Icons.search, color: Colors.black87),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        printList(),
-      ]
-    );
+      ),
+      printList(),
+    ]);
   }
 
   Widget _performListView() {
@@ -133,10 +134,10 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                 color: Colors.black87,
               ),
             );
-          else{
-            if(_recipes.length == 0){
+          else {
+            if (_recipes.length == 0) {
               var list = snapshot.data.documents;
-              for(var f in list){
+              for (var f in list) {
                 addRecipe(new Recipe(
                     int.parse(f.documentID),
                     f['name'],
@@ -146,7 +147,8 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                     f['types'],
                     f['difficulty'],
                     f['time']));
-              }}
+              }
+            }
             return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
@@ -159,19 +161,18 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  DishPage(recipeId: index, user: widget.user)));
+                              builder: (context) => DishPage(
+                                  recipeId: index, user: widget.user)));
                     },
                     title: Column(
                       children: <Widget>[
                         Row(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
                               child: Image.network(
-                                snapshot.data.documents[index]
-                                ['image_url'],
+                                snapshot.data.documents[index]['image_url'],
                                 width: 80.0,
                                 height: 80.0,
                               ),
@@ -198,7 +199,8 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
                 ],
               ),
             );
-          }});
+          }
+        });
   }
 
   Widget _createFilteredListView() {
@@ -213,7 +215,9 @@ class _NamesSearchingPageState extends State<NamesSearchingPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DishPage(recipeId: _filteredRecipes[index].id, user: widget.user)));
+                      builder: (context) => DishPage(
+                          recipeId: _filteredRecipes[index].id,
+                          user: widget.user)));
             },
             title: Column(
               children: <Widget>[

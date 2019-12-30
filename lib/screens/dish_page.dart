@@ -18,7 +18,9 @@ class _DishPageState extends State<DishPage> {
     inFavorites = isInFavorites(widget.recipeId.toString());
     super.initState();
   }
+
   bool inFavorites;
+
   String difficultyString(int difficulty) {
     if (difficulty == 1) return 'łatwe';
     if (difficulty == 2) return 'średnie';
@@ -101,8 +103,6 @@ class _DishPageState extends State<DishPage> {
                         childAspectRatio: 16.0 / 5.0,
                         primary: false,
                         padding: const EdgeInsets.symmetric(vertical: 20),
-//                        crossAxisSpacing: 5,
-//                        mainAxisSpacing: 40,
                         crossAxisCount: 3,
                         children: List.generate(
                           snapshot
@@ -250,9 +250,11 @@ class _DishPageState extends State<DishPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8.0),
                                         child: IconButton(
-                                          onPressed: () {addToShoppingList(snapshot.data
-                                              .documents[widget.recipeId]
-                                          ['ingredients'][index]['name']);},
+                                          onPressed: () {
+                                            addToShoppingList(snapshot.data
+                                                    .documents[widget.recipeId]
+                                                ['ingredients'][index]['name']);
+                                          },
                                           icon: Icon(
                                             Icons.add_shopping_cart,
                                             color: Colors.green[900],
@@ -339,18 +341,20 @@ class _DishPageState extends State<DishPage> {
         onPressed: () {
           addToFavorite(widget.recipeId.toString());
         },
-        child: Icon(inFavorites ? Icons.favorite : Icons.favorite_border, color: Colors.white),
+        child: Icon(inFavorites ? Icons.favorite : Icons.favorite_border,
+            color: Colors.white),
         backgroundColor: Colors.red[600],
       ),
     );
   }
 
-  void addToShoppingList(String item){
-    if(!widget.user.shoppingList.contains(item))
+  void addToShoppingList(String item) {
+    if (!widget.user.shoppingList.contains(item))
       widget.user.shoppingList.add(item);
   }
-  void addToFavorite(String item){
-    if(!isInFavorites(item))
+
+  void addToFavorite(String item) {
+    if (!isInFavorites(item))
       widget.user.favoriteRecipes.add(item);
     else
       widget.user.favoriteRecipes.remove(item);
@@ -360,9 +364,10 @@ class _DishPageState extends State<DishPage> {
     });
   }
 
-  bool isInFavorites(String item){
-    if(widget.user.favoriteRecipes.contains(item))
+  bool isInFavorites(String item) {
+    if (widget.user.favoriteRecipes.contains(item))
       return true;
-    else return false;
+    else
+      return false;
   }
 }

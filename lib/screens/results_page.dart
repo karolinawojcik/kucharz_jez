@@ -120,7 +120,6 @@ class _ResultsPageState extends State<ResultsPage> {
                           fontFamily: 'OpenSans',
                           fontSize: 18,
                         ),
-                        //overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                       ),
                     ),
