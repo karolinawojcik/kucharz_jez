@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
   List<Recipe> recipesForToday = [];
 
-
   @override
   void initState() {
     getAllRecipes();
@@ -96,8 +95,10 @@ class _HomePageState extends State<HomePage> {
                                                         minHeight: 40.0),
                                                 onPressed: () {},
                                                 child: Icon(
-                                                  isInFavorites(index.toString())? Icons
-                                                      .favorite : Icons.favorite_border,
+                                                  isInFavorites(
+                                                          index.toString())
+                                                      ? Icons.favorite
+                                                      : Icons.favorite_border,
                                                 ),
                                                 elevation: 2.0,
                                                 fillColor: Colors.white,
@@ -286,9 +287,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  bool isInFavorites(String item){
-    if(widget.user.favoriteRecipes.contains(item))
+  bool isInFavorites(String item) {
+    if (widget.user.favoriteRecipes.contains(item))
       return true;
-    else return false;
+    else
+      return false;
   }
 }

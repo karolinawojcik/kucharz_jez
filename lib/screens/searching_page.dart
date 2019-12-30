@@ -182,10 +182,6 @@ class _SearchingPageState extends State<SearchingPage> {
                 children: <Widget>[
                   new ListTile(
                     onTap: () {
-//                Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                        builder: (context) => DishPage(recipeId: index)));
                     },
                     title: Column(
                       children: <Widget>[
@@ -264,6 +260,6 @@ class _SearchingPageState extends State<SearchingPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ResultsPage(recipes: results, user: widget.user)));
+            builder: (context) => ResultsPage(recipes: results, user: widget.user, message: 'MOŻESZ PRZYGOTOWAć')));
   }
 }

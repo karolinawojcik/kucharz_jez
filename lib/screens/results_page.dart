@@ -6,14 +6,16 @@ import 'package:kucharz_jez/screens/dish_page.dart';
 class ResultsPage extends StatefulWidget {
   final AppUser user;
   final List<Recipe> recipes;
+  final String message;
 
-  const ResultsPage({Key key, this.recipes, this.user}) : super(key: key);
+  const ResultsPage({Key key, this.recipes, this.user, this.message})
+      : super(key: key);
+
   @override
   _ResultsPageState createState() => _ResultsPageState();
 }
 
 class _ResultsPageState extends State<ResultsPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,17 +46,32 @@ class _ResultsPageState extends State<ResultsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  widget.message,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black87,
+                    fontFamily: 'AmaticSC',
+                    fontSize: 36,
+                  ),
+                ),
+              ),
+            ),
             printList(),
           ],
         ),
       ),
     );
   }
+
   Widget printList() {
-    if(widget.recipes.length == 0){
+    if (widget.recipes.length == 0) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20.0),
+          padding: const EdgeInsets.only(top: 10.0),
           child: Text(
             'Brak wyników',
             style: TextStyle(
@@ -78,7 +95,9 @@ class _ResultsPageState extends State<ResultsPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DishPage(recipeId: widget.recipes[index].id, user: widget.user)));
+                      builder: (context) => DishPage(
+                          recipeId: widget.recipes[index].id,
+                          user: widget.user)));
             },
             title: Column(
               children: <Widget>[
@@ -115,5 +134,4 @@ class _ResultsPageState extends State<ResultsPage> {
       ),
     );
   }
-
 }

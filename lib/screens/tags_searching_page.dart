@@ -239,6 +239,6 @@ class _TagsSearchingPageState extends State<TagsSearchingPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ResultsPage(recipes: results, user: widget.user)));
+            builder: (context) => ResultsPage(recipes: results, user: widget.user, message: tag)));
   }
 }

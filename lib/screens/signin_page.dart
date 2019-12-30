@@ -1,180 +1,3 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:flutter/material.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:kucharz_jez/models/user.dart';
-//import 'package:kucharz_jez/screens/main_page.dart';
-//
-//class SignInPage extends StatefulWidget {
-//  @override
-//  _SignInPageState createState() => new _SignInPageState();
-//}
-//
-//class _SignInPageState extends State<SignInPage> {
-//  String _email, _password;
-//  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-//
-//  @override
-//  Widget build (BuildContext context) {
-//    return new Scaffold(
-//      appBar: AppBar(
-//        title: Row(
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: [
-//            Image.asset(
-//              'assets/jez.png',
-//              fit: BoxFit.cover,
-//              height: 45,
-//              width: 45,
-//            ),
-//            Container(
-//              padding: const EdgeInsets.all(8.0),
-//              child: Text(
-//                'Kucharz Jeż',
-//                style: TextStyle(
-//                  fontFamily: 'OpenSans',
-//                  color: Colors.white,
-//                ),
-//              ),
-//            ),
-//          ],
-//        ),
-//        backgroundColor: Colors.red[600],
-//      ),
-//      body: SingleChildScrollView(
-//        child: Center(
-//          child: Form(
-//            key: _formKey,
-//              child: Column(
-//                // mainAxisSize: MainAxisSize.min,
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: const EdgeInsets.only( top: 40.0),
-//                      child: Image.asset(
-//                        'assets/jez.png',
-//                        fit: BoxFit.contain,
-//                        height: 200,
-//                        width: 200,
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: const EdgeInsets.only(bottom: 10.0),
-//                      child: Text(
-//                        'Kucharz Jeż\nwie co zjesz!',
-//                        style: TextStyle(
-//                          fontSize: 40.0,
-//                          fontWeight: FontWeight.bold,
-//                          color: Colors.black,
-//                          fontFamily: 'AmaticSC',
-//                        ),
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: const EdgeInsets.all(5.0),
-//                      child: Container(
-//                        width: 300,
-//                        child: TextFormField(
-//                          validator: (input) {
-//                            if(input.isEmpty){
-//                              return 'Podaj email';
-//                            }
-//                            return '';
-//                          } ,
-//                          onSaved: (input) => _email = input,
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: 'Email',
-//                            filled: true,
-//                            fillColor: Colors.white,
-//                            contentPadding: const EdgeInsets.only(
-//                                left: 15.0,
-//                                bottom: 10.0,
-//                                top: 10.0
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: const EdgeInsets.all(5.0),
-//                      child: Container(
-//                        width: 300,
-//                        child: TextFormField(
-//                          validator: (input) {
-//                            if (input.isEmpty) {
-//                              return 'Podaj hasło';
-//                            }
-//                            else if (input.length < 6) {
-//                              return 'Hasło musi mieć minimum 6 znaków';
-//                            }
-//                            return '';
-//                          },
-//                          onSaved: (input) => _password = input,
-//                          obscureText: true,
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: 'Hasło',
-//                            filled: true,
-//                            fillColor: Colors.white,
-//                            contentPadding: const EdgeInsets.only(
-//                                left: 15.0,
-//                                bottom: 10.0,
-//                                top: 10.0
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: const EdgeInsets.only(top: 5.0),
-//                      child: RaisedButton(
-//                        onPressed: signIn,
-//                        color: Colors.red[600],
-//                        child: const Text(
-//                            'Zaloguj',
-//                            style: TextStyle(
-//                              fontSize: 16,
-//                              fontFamily: 'OpenSans',
-//                              color: Colors.white,
-//                            )
-//                        ),
-//                      ),
-//                    ),
-//                  ]
-//              ),
-//            )
-//        ),
-//      ),
-//      backgroundColor: Colors.grey[200],
-//    );
-//  }
-//
-//  Future<void> signIn() async{
-//    final formState = _formKey.currentState;
-//    if(formState.validate()){
-//      formState.save();
-//      try{
-//        FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
-//        await getUser(user);
-//      }
-//      catch(e){
-//        print(e.message);
-//      }
-//    }
-//  }
-//  Future<void> getUser(FirebaseUser user) async {
-//    QuerySnapshot querySnapshot = await Firestore.instance.collection('users').getDocuments();
-//    var list = querySnapshot.documents;
-//    for(var f in list){
-//      if(f['email'] == user.email){
-//        var loggedInUser = new AppUser(int.parse(f.documentID), f['username'], f['email']);
-//        loggedInUser.favoriteRecipes = f['favorite_recipes'];
-//        loggedInUser.shoppingList = f['shopping_list'];
-//        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(user: loggedInUser)));
-//        break;
-//      }
-//    }
-//  }
-//}
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kucharz_jez/models/user.dart';
@@ -187,7 +10,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   String _email, _password;
-  String errorMessage = '';
+  String errorMessage = ' ';
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   @override
@@ -253,7 +76,7 @@ class _SignInPageState extends State<SignInPage> {
                           validator: (input) {
                             if(input.isEmpty){
                               return 'Podaj email';
-                            } return '';
+                            }
                           } ,
                           onSaved: (input) => _email = input,
                           decoration: InputDecoration(
@@ -281,7 +104,7 @@ class _SignInPageState extends State<SignInPage> {
                             }
                             else if (input.length < 6) {
                               return 'Hasło musi mieć minimum 6 znaków';
-                            }return '';
+                            }
                           },
                           onSaved: (input) => _password = input,
                           obscureText: true,
@@ -338,7 +161,7 @@ class _SignInPageState extends State<SignInPage> {
       try{
         FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
         setState(() {
-          errorMessage = '';
+          errorMessage = ' ';
         });
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(user: new AppUser(user.uid, user.email))));
       }

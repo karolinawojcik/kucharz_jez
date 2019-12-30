@@ -16,7 +16,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool isLoading = true;
-  final List<String> options = <String>['Polubione przepisy', 'Lista zakupów'];
+  final List<String> options = <String>['Polubione przepisy', 'Lista zakupów', 'Wyloguj'];
 
   @override
   void initState() {
@@ -120,7 +120,11 @@ class _ProfilePageState extends State<ProfilePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ResultsPage(recipes: recipes, user: widget.user)));
+              builder: (context) => ResultsPage(recipes: recipes, user: widget.user, message: 'POLUBIONE PRZEPISY')));
+    }
+    if (option == 2) {
+      await updateUserData();
+      Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
     }
   }
 
