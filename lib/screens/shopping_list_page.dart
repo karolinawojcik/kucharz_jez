@@ -71,6 +71,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       ),
     );
   }
+
   Widget printList() {
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
@@ -80,19 +81,12 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       itemBuilder: (context, index) => Column(
         children: <Widget>[
           new ListTile(
-            onTap: () {
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                      builder: (context) => DishPage(recipeId: widget.recipes[index].id, user: widget.user)));
-            },
             title: Column(
               children: <Widget>[
                 Row(
                   children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: IconButton(
                             onPressed: () {
                               removeFromList(index);
@@ -102,7 +96,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
                               color: Colors.red[600],
                             ))),
                     Text(
-                      '- '+ actualList[index].toString() + ',',
+                      '- ' + actualList[index].toString() + ',',
                       style: TextStyle(
                         fontWeight: FontWeight.w300,
                         color: Colors.black87,
@@ -119,6 +113,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       ),
     );
   }
+
   void removeFromList(int index) {
     widget.user.shoppingList.removeAt(index);
     setState(() {

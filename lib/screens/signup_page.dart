@@ -290,7 +290,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           validator: (input) {
                             if(input.isEmpty){
                               return 'Podaj email';
-                            }
+                            }return '';
                           } ,
                           onSaved: (input) => _email = input,
                           decoration: InputDecoration(
@@ -318,7 +318,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             }
                             else if (input.length < 6) {
                               return 'Hasło musi mieć minimum 6 znaków';
-                            }
+                            }return '';
                           },
                           onSaved: (input) => _password = input,
                           obscureText: true,

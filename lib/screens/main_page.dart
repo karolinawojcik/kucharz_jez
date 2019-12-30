@@ -113,17 +113,17 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
     List<AppUser> users = [];
     String uid;
     String email;
-    List<dynamic> favoriteRecipes;
-    List<dynamic> shoppingList;
+    List<dynamic> favoriteRecipes = [];
+    List<dynamic> shoppingList = [];
 
-    QuerySnapshot querySnapshot = await Firestore.instance.collection('/users').getDocuments();
+    QuerySnapshot querySnapshot = await Firestore.instance.collection('users').getDocuments();
     var list = querySnapshot.documents;
     for(var f in list){
       var usr = new AppUser(
           f.documentID,
           f['email']);
-      usr.favoriteRecipes = f['favorite_recipes'];
-      usr.shoppingList = f['shopping_list'];
+      usr.favoriteRecipes = f['favorite_recipes'].length == 0 ? [] : List.from(f['favorite_recipes'], growable:true);
+      usr.shoppingList = f['shopping_list'].length == 0 ? [] : List.from(f['shopping_list'], growable:true);
       users.add(usr);
     }
     bool isExisting = false;
@@ -151,8 +151,8 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
     }
     else{
         var loggedUser = new AppUser(uid,email);
-        loggedInUser.favoriteRecipes = favoriteRecipes;
-        loggedInUser.shoppingList = shoppingList;
+        loggedUser.favoriteRecipes = favoriteRecipes;
+        loggedUser.shoppingList = shoppingList;
         setState(() {
           loggedInUser = loggedUser;
           isLoading = false;

@@ -187,6 +187,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   String _email, _password;
+  String errorMessage = '';
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   @override
@@ -252,7 +253,7 @@ class _SignInPageState extends State<SignInPage> {
                           validator: (input) {
                             if(input.isEmpty){
                               return 'Podaj email';
-                            }
+                            } return '';
                           } ,
                           onSaved: (input) => _email = input,
                           decoration: InputDecoration(
@@ -280,7 +281,7 @@ class _SignInPageState extends State<SignInPage> {
                             }
                             else if (input.length < 6) {
                               return 'Hasło musi mieć minimum 6 znaków';
-                            }
+                            }return '';
                           },
                           onSaved: (input) => _password = input,
                           obscureText: true,
@@ -313,6 +314,14 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
                     ),
+                    Text(
+                        errorMessage,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'OpenSans',
+                          color: Colors.red[600],
+                        )
+                    ),
                   ]
               ),
             )
@@ -328,10 +337,16 @@ class _SignInPageState extends State<SignInPage> {
       formState.save();
       try{
         FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)).user;
+        setState(() {
+          errorMessage = '';
+        });
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(user: new AppUser(user.uid, user.email))));
       }
       catch(e){
         print(e.message);
+        setState(() {
+          errorMessage = 'Wprowadzono niepoprawne dane';
+        });
       }
     }
   }

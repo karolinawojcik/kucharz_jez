@@ -13,6 +13,12 @@ class DishPage extends StatefulWidget {
 }
 
 class _DishPageState extends State<DishPage> {
+  @override
+  void initState() {
+    inFavorites = isInFavorites(widget.recipeId.toString());
+    super.initState();
+  }
+  bool inFavorites;
   String difficultyString(int difficulty) {
     if (difficulty == 1) return 'łatwe';
     if (difficulty == 2) return 'średnie';
@@ -331,9 +337,9 @@ class _DishPageState extends State<DishPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          addToFavorite(widget.recipeId.toString());
         },
-        child: Icon(Icons.favorite_border, color: Colors.white),
+        child: Icon(inFavorites ? Icons.favorite : Icons.favorite_border, color: Colors.white),
         backgroundColor: Colors.red[600],
       ),
     );
@@ -342,5 +348,21 @@ class _DishPageState extends State<DishPage> {
   void addToShoppingList(String item){
     if(!widget.user.shoppingList.contains(item))
       widget.user.shoppingList.add(item);
+  }
+  void addToFavorite(String item){
+    if(!isInFavorites(item))
+      widget.user.favoriteRecipes.add(item);
+    else
+      widget.user.favoriteRecipes.remove(item);
+
+    setState(() {
+      inFavorites = isInFavorites(item);
+    });
+  }
+
+  bool isInFavorites(String item){
+    if(widget.user.favoriteRecipes.contains(item))
+      return true;
+    else return false;
   }
 }
