@@ -52,10 +52,10 @@ class _ResultsPageState extends State<ResultsPage> {
                 child: Text(
                   widget.message,
                   style: TextStyle(
-                    fontWeight: FontWeight.w400,
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
                     color: Colors.black87,
                     fontFamily: 'AmaticSC',
-                    fontSize: 36,
                   ),
                 ),
               ),

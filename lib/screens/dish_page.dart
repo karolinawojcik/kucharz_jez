@@ -127,7 +127,7 @@ class _DishPageState extends State<DishPage> {
                                       fontWeight: FontWeight.w400,
                                       color: Colors.white,
                                       fontFamily: 'OpenSans',
-                                      fontSize: 16,
+                                      fontSize: 13,
                                     ),
                                   ),
                                 ),
@@ -190,13 +190,13 @@ class _DishPageState extends State<DishPage> {
                         children: <Widget>[
                           Container(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 12.0, vertical: 10.0),
+                                horizontal: 10.0, vertical: 5.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 0.0, horizontal: 5.0),
+                                      vertical: 0.0, horizontal: 3.0),
                                   child: Row(
                                     children: <Widget>[
                                       Padding(
@@ -210,13 +210,13 @@ class _DishPageState extends State<DishPage> {
                                             fontWeight: FontWeight.w300,
                                             color: Colors.black87,
                                             fontFamily: 'OpenSans',
-                                            fontSize: 20,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
                                       Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 8.0),
+                                            horizontal: 4.0),
                                         child: Text(
                                           amountString(snapshot.data
                                                   .documents[widget.recipeId]
@@ -248,7 +248,7 @@ class _DishPageState extends State<DishPage> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
+                                            horizontal: 5.0),
                                         child: IconButton(
                                           onPressed: () {
                                             addToShoppingList(snapshot.data
