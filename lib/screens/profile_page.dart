@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kucharz_jez/models/user.dart';
+import 'package:kucharz_jez/screens/shopping_list_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final AppUser user;
@@ -30,15 +31,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-            Divider(color: Colors.black87),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
               child: Text(
-                widget.user.userName,
+                widget.user.email,
                 style: TextStyle(
-                  fontSize: 36.0,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black87,
+                  fontSize: 34.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.blue[900],
                   fontFamily: 'AmaticSC',
                 ),
               ),
@@ -50,19 +50,24 @@ class _ProfilePageState extends State<ProfilePage> {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: <Widget>[
-                    Text(
-                      options[index],
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black87,
-                        fontFamily: 'AmaticSC',
-                        fontSize: 34,
+                return ListTile(
+                  onTap:(){
+                    onOptionEnter(index);
+                  },
+                  title: Column(
+                    children: <Widget>[
+                      Text(
+                        options[index],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black87,
+                          fontFamily: 'AmaticSC',
+                          fontSize: 34,
+                        ),
                       ),
-                    ),
-                    Divider(color: Colors.black87),
-                  ],
+                      Divider(color: Colors.black87),
+                    ],
+                  ),
                 );
               },
             ),
@@ -70,5 +75,15 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  void onOptionEnter(int option){
+    if(option == 1){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ShoppingListPage(user: widget.user)));
+    }
   }
 }

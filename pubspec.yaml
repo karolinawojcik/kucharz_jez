@@ -84,7 +84,9 @@ flutter:
    - family: Kalam
      fonts:
        - asset: fonts/Kalam-Regular.ttf
+         weight: 500
        - asset: fonts/Kalam-Light.ttf
+         weight: 300
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

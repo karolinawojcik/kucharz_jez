@@ -113,10 +113,10 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
     List<AppUser> users = [];
     String uid;
     String email;
-    List<String> favoriteRecipes;
-    List<String> shoppingList;
+    List<dynamic> favoriteRecipes;
+    List<dynamic> shoppingList;
 
-    QuerySnapshot querySnapshot = await Firestore.instance.collection('users').getDocuments();
+    QuerySnapshot querySnapshot = await Firestore.instance.collection('/users').getDocuments();
     var list = querySnapshot.documents;
     for(var f in list){
       var usr = new AppUser(
@@ -148,10 +148,8 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
      }).catchError((e){
        print(e);
      });
-
     }
     else{
-
         var loggedUser = new AppUser(uid,email);
         loggedInUser.favoriteRecipes = favoriteRecipes;
         loggedInUser.shoppingList = shoppingList;

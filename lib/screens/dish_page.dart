@@ -244,7 +244,9 @@ class _DishPageState extends State<DishPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8.0),
                                         child: IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {addToShoppingList(snapshot.data
+                                              .documents[widget.recipeId]
+                                          ['ingredients'][index]['name']);},
                                           icon: Icon(
                                             Icons.add_shopping_cart,
                                             color: Colors.green[900],
@@ -335,5 +337,10 @@ class _DishPageState extends State<DishPage> {
         backgroundColor: Colors.red[600],
       ),
     );
+  }
+
+  void addToShoppingList(String item){
+    if(!widget.user.shoppingList.contains(item))
+      widget.user.shoppingList.add(item);
   }
 }
