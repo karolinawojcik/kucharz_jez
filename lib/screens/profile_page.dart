@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kucharz_jez/models/recipe.dart';
 import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/results_page.dart';
@@ -30,6 +31,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.green,
+      ),
+    );
     return Scaffold(
       body: isLoading
           ? Center(

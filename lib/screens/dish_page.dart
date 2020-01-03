@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:kucharz_jez/models/user.dart';
 
 class DishPage extends StatefulWidget {
@@ -35,6 +36,12 @@ class _DishPageState extends State<DishPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.green,
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Row(

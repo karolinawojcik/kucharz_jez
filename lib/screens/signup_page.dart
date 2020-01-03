@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:kucharz_jez/screens/signin_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -13,6 +14,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.green,
+      ),
+    );
     return new Scaffold(
       appBar: AppBar(
         title: Row(

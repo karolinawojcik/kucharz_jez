@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kucharz_jez/models/user.dart';
 
 class ShoppingListPage extends StatefulWidget {
@@ -21,6 +22,12 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.green,
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Row(

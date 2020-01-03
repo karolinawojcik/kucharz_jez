@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/names_searching_page.dart';
 import 'package:kucharz_jez/screens/tags_searching_page.dart';
@@ -32,6 +33,12 @@ class _RecipesPageState extends State<RecipesPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.green,
+      ),
+    );
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

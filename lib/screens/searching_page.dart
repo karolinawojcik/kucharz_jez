@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kucharz_jez/models/recipe.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:kucharz_jez/models/user.dart';
@@ -96,6 +97,12 @@ class _SearchingPageState extends State<SearchingPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.green,
+      ),
+    );
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: SingleChildScrollView(

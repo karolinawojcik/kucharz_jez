@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kucharz_jez/models/user.dart';
 import 'package:kucharz_jez/screens/home_page.dart';
 import 'package:kucharz_jez/screens/profile_page.dart';
@@ -22,6 +23,12 @@ class _MainPageState extends State<MainPage>
 
   @override
   void initState() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.black,
+      ),
+    );
     loggedInUser = widget.user;
     createUser();
     super.initState();
@@ -30,6 +37,12 @@ class _MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.green,
+      ),
+    );
     return new Scaffold(
       appBar: AppBar(
         title: Row(
